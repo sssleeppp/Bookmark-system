@@ -29,5 +29,8 @@ result-*
 .env.local
 # Logs
 *.log
+# Rust build artifacts
+backend/target/
+
 # Agent instructions
 AGENTS.md

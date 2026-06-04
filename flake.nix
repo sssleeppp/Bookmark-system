@@ -1,5 +1,5 @@
 {
-  description = "RuoYi-Vue Dev Environment";
+  description = "Bookmark System Dev Environment";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -19,14 +19,18 @@
       in {
         default = pkgs.mkShell {
           buildInputs = with pkgs; [
-            openjdk17
-            mariadb
-            fontconfig
-            dejavu_fonts
+            cargo
+            rustc
+            rustfmt
+            clippy
+            rust-analyzer
             bun
-            maven
             just
             alejandra
+          ];
+          nativeBuildInputs = with pkgs; [
+            pkg-config
+            stdenv.cc
           ];
         };
       }

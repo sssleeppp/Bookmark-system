@@ -5,32 +5,73 @@
       <div class="header-actions">
         <!-- 数据管理下拉菜单 -->
         <el-dropdown trigger="click" @command="handleCommand">
-          <button class="white-nav-btn small-btn mr-10" style="height: auto;">
-            数据管理 <svg class="svg-icon" style="width: 12px; height: 12px; margin-left: 5px;" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          <button class="white-nav-btn small-btn mr-10" style="height: auto">
+            数据管理
+            <svg
+              class="svg-icon"
+              style="width: 12px; height: 12px; margin-left: 5px"
+              viewBox="0 0 24 24"
+            >
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
           </button>
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="import-json">
-                <svg class="svg-icon" viewBox="0 0 24 24" style="margin-right: 5px; width: 14px; height: 14px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <svg
+                  class="svg-icon"
+                  viewBox="0 0 24 24"
+                  style="margin-right: 5px; width: 14px; height: 14px"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
                 导入 JSON
               </el-dropdown-item>
               <el-dropdown-item command="import-html">
-                <svg class="svg-icon" viewBox="0 0 24 24" style="margin-right: 5px; width: 14px; height: 14px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <svg
+                  class="svg-icon"
+                  viewBox="0 0 24 24"
+                  style="margin-right: 5px; width: 14px; height: 14px"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
                 导入 HTML
               </el-dropdown-item>
               <el-dropdown-item divided command="export-json">
-                <svg class="svg-icon" viewBox="0 0 24 24" style="margin-right: 5px; width: 14px; height: 14px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                <svg
+                  class="svg-icon"
+                  viewBox="0 0 24 24"
+                  style="margin-right: 5px; width: 14px; height: 14px"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
                 导出 JSON
               </el-dropdown-item>
               <el-dropdown-item command="export-html">
-                <svg class="svg-icon" viewBox="0 0 24 24" style="margin-right: 5px; width: 14px; height: 14px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                <svg
+                  class="svg-icon"
+                  viewBox="0 0 24 24"
+                  style="margin-right: 5px; width: 14px; height: 14px"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
                 导出 HTML
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
-        
-        <button class="white-nav-btn small-btn" @click="logout">退出登录</button>
+
+        <button class="white-nav-btn small-btn" @click="logout">
+          退出登录
+        </button>
       </div>
     </div>
 
@@ -445,13 +486,26 @@
       </div>
     </div>
     <!-- 隐藏的文件上传 input (现在移动到外面，因为触发是独立的) -->
-    <input type="file" ref="fileInput" style="display: none" @change="handleFileUpload" />
+    <input
+      type="file"
+      ref="fileInput"
+      style="display: none"
+      @change="handleFileUpload"
+    />
 
     <!-- 全屏动画遮罩 -->
     <div class="fullscreen-overlay" v-if="isImportingAnim || isExportingAnim">
       <div class="anim-theater">
         <!-- 像素吃豆人巨怪 -->
-        <svg class="pixel-pacman giant-pacman" :class="{ 'spitting': isExportingAnim, 'eating-frenzy': isImportingAnim }" viewBox="0 0 13 13" shape-rendering="crispEdges">
+        <svg
+          class="pixel-pacman giant-pacman"
+          :class="{
+            spitting: isExportingAnim,
+            'eating-frenzy': isImportingAnim,
+          }"
+          viewBox="0 0 13 13"
+          shape-rendering="crispEdges"
+        >
           <rect x="4" y="0" width="5" height="1" fill="#DDA142" />
           <rect x="2" y="1" width="9" height="1" fill="#DDA142" />
           <rect x="1" y="2" width="11" height="1" fill="#DDA142" />
@@ -461,31 +515,81 @@
           <rect x="2" y="11" width="9" height="1" fill="#DDA142" />
           <rect x="4" y="12" width="5" height="1" fill="#DDA142" />
           <rect x="0" y="4" width="11" height="1" fill="#DDA142" />
-          <rect x="11" y="4" width="2" height="1" class="pac-jaw-top" fill="#DDA142" />
+          <rect
+            x="11"
+            y="4"
+            width="2"
+            height="1"
+            class="pac-jaw-top"
+            fill="#DDA142"
+          />
           <rect x="0" y="5" width="8" height="1" fill="#DDA142" />
-          <rect x="8" y="5" width="5" height="1" class="pac-jaw-top" fill="#DDA142" />
+          <rect
+            x="8"
+            y="5"
+            width="5"
+            height="1"
+            class="pac-jaw-top"
+            fill="#DDA142"
+          />
           <rect x="0" y="6" width="6" height="1" fill="#DDA142" />
-          <rect x="6" y="6" width="7" height="1" class="pac-jaw-mid" fill="#DDA142" />
+          <rect
+            x="6"
+            y="6"
+            width="7"
+            height="1"
+            class="pac-jaw-mid"
+            fill="#DDA142"
+          />
           <rect x="0" y="7" width="8" height="1" fill="#DDA142" />
-          <rect x="8" y="7" width="5" height="1" class="pac-jaw-bottom" fill="#DDA142" />
+          <rect
+            x="8"
+            y="7"
+            width="5"
+            height="1"
+            class="pac-jaw-bottom"
+            fill="#DDA142"
+          />
           <rect x="0" y="8" width="11" height="1" fill="#DDA142" />
-          <rect x="11" y="8" width="2" height="1" class="pac-jaw-bottom" fill="#DDA142" />
+          <rect
+            x="11"
+            y="8"
+            width="2"
+            height="1"
+            class="pac-jaw-bottom"
+            fill="#DDA142"
+          />
           <rect x="7" y="2" width="2" height="2" fill="#000" />
         </svg>
 
         <!-- 导入吃粒子 -->
         <div class="particles import-particles" v-if="isImportingAnim">
-          <div class="particle" v-for="i in 10" :key="'in'+i" :style="{ animationDelay: (i * 0.1) + 's' }"></div>
+          <div
+            class="particle"
+            v-for="i in 10"
+            :key="'in' + i"
+            :style="{ animationDelay: i * 0.1 + 's' }"
+          ></div>
         </div>
 
         <!-- 导出吐粒子 -->
         <div class="particles export-particles" v-if="isExportingAnim">
-          <div class="particle" v-for="i in 15" :key="'out'+i" :style="{ '--tx': (Math.random() * 300 - 150) + 'px', '--ty': (Math.random() * 200 - 100) + 'px', animationDelay: (i * 0.05) + 's' }"></div>
+          <div
+            class="particle"
+            v-for="i in 15"
+            :key="'out' + i"
+            :style="{
+              '--tx': Math.random() * 300 - 150 + 'px',
+              '--ty': Math.random() * 200 - 100 + 'px',
+              animationDelay: i * 0.05 + 's',
+            }"
+          ></div>
         </div>
       </div>
-      <div class="anim-text">{{ isImportingAnim ? '疯狂吞食数据中...' : '疯狂喷射数据中...' }}</div>
+      <div class="anim-text">
+        {{ isImportingAnim ? "疯狂吞食数据中..." : "疯狂喷射数据中..." }}
+      </div>
     </div>
-
   </div>
 </template>
 
@@ -554,7 +658,7 @@ const exportBookmarks = (format) => {
   setTimeout(() => {
     isExportingAnim.value = false;
     const url = `http://localhost:8989/bookmark/export?userId=${userId}&format=${format}`;
-    window.open(url, '_blank');
+    window.open(url, "_blank");
   }, 1500);
 };
 
@@ -582,10 +686,10 @@ const handleFileUpload = async (event) => {
   try {
     const res = await request.post("/bookmark/import", formData, {
       headers: {
-        "Content-Type": "multipart/form-data"
-      }
+        "Content-Type": "multipart/form-data",
+      },
     });
-    
+
     // 给动画留点播放时间 1.5s
     setTimeout(() => {
       isImportingAnim.value = false;
@@ -598,7 +702,6 @@ const handleFileUpload = async (event) => {
       }
       if (fileInput.value) fileInput.value.value = "";
     }, 1500);
-    
   } catch (error) {
     setTimeout(() => {
       isImportingAnim.value = false;
@@ -1461,8 +1564,12 @@ onMounted(() => {
   background-color: #f0f0f0;
   transform: translateY(-1px);
 }
-.mb-10 { margin-bottom: 10px; }
-.mr-10 { margin-right: 10px; }
+.mb-10 {
+  margin-bottom: 10px;
+}
+.mr-10 {
+  margin-right: 10px;
+}
 
 /* 全屏动画遮罩 */
 .fullscreen-overlay {
@@ -1501,12 +1608,22 @@ onMounted(() => {
   animation: frenzy-chomp-mid 0.1s infinite alternate;
 }
 @keyframes frenzy-chomp-jaw {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 @keyframes frenzy-chomp-mid {
-  0% { opacity: 0; fill: #DDA142; }
-  100% { opacity: 1; fill: #222; }
+  0% {
+    opacity: 0;
+    fill: #dda142;
+  }
+  100% {
+    opacity: 1;
+    fill: #222;
+  }
 }
 
 /* 喷射动画 (面向左) */
@@ -1523,8 +1640,13 @@ onMounted(() => {
   fill: #222;
 }
 @keyframes spit-recoil {
-  0%, 100% { transform: scaleX(-1) translateX(0); }
-  50% { transform: scaleX(-1) translateX(-10px); }
+  0%,
+  100% {
+    transform: scaleX(-1) translateX(0);
+  }
+  50% {
+    transform: scaleX(-1) translateX(-10px);
+  }
 }
 
 /* 粒子系统 */
@@ -1551,12 +1673,24 @@ onMounted(() => {
   right: -50vw;
   transform: translateY(-50%);
   animation: fly-in 1s linear infinite;
-  background-color: #DDA142;
+  background-color: #dda142;
 }
 @keyframes fly-in {
-  0% { right: -50vw; opacity: 1; transform: translateY(-50%) scale(1); }
-  90% { right: 80px; opacity: 1; transform: translateY(-50%) scale(0.5); }
-  100% { right: 120px; opacity: 0; transform: translateY(-50%) scale(0); }
+  0% {
+    right: -50vw;
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+  90% {
+    right: 80px;
+    opacity: 1;
+    transform: translateY(-50%) scale(0.5);
+  }
+  100% {
+    right: 120px;
+    opacity: 0;
+    transform: translateY(-50%) scale(0);
+  }
 }
 
 /* 喷射粒子 - 从中心嘴部向外发散抛物线 */
@@ -1565,16 +1699,24 @@ onMounted(() => {
   left: 50%; /* 吃豆人面向左，所以嘴巴在左侧一点 */
   transform: translate(-50%, -50%);
   animation: spray-out 0.8s cubic-bezier(0.25, 1, 0.5, 1) infinite;
-  background-color: #DDA142;
+  background-color: #dda142;
 }
 @keyframes spray-out {
-  0% { transform: translate(-20px, 0) scale(0); opacity: 1; }
-  80% { opacity: 1; }
-  100% { transform: translate(calc(-50px + var(--tx)), var(--ty)) scale(1.5); opacity: 0; }
+  0% {
+    transform: translate(-20px, 0) scale(0);
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(calc(-50px + var(--tx)), var(--ty)) scale(1.5);
+    opacity: 0;
+  }
 }
 
 .anim-text {
-  color: #DDA142;
+  color: #dda142;
   font-size: 24px;
   font-weight: 600;
   margin-top: 20px;
@@ -1582,8 +1724,13 @@ onMounted(() => {
   animation: pulse-text 0.5s infinite alternate;
 }
 @keyframes pulse-text {
-  from { opacity: 0.6; transform: scale(1); }
-  to { opacity: 1; transform: scale(1.05); }
+  from {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.05);
+  }
 }
-
 </style>
