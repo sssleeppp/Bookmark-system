@@ -24,7 +24,8 @@
             rustfmt
             clippy
             rust-analyzer
-            bun
+            nodejs
+            pnpm
             just
             alejandra
           ];

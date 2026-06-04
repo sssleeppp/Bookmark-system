@@ -685,9 +685,7 @@ const handleFileUpload = async (event) => {
 
   try {
     const res = await request.post("/bookmark/import", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+      timeout: 60000,
     });
 
     // 给动画留点播放时间 1.5s

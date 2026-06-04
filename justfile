@@ -9,7 +9,7 @@ default:
 
 build:
     cd backend && cargo build
-    cd frontend && bun install
+    cd frontend && pnpm install
 
 start-backend:
     #!/usr/bin/env bash
@@ -21,8 +21,8 @@ start-backend:
 start-frontend:
     #!/usr/bin/env bash
     cd frontend
-    test -d node_modules || bun install
-    nohup bun run dev 1>/tmp/bookmark-frontend.log 2>&1 &
+    test -d node_modules || pnpm install
+    nohup pnpm dev 1>/tmp/bookmark-frontend.log 2>&1 &
     sleep 1
     echo "Frontend: http://localhost:5173"
 
@@ -34,16 +34,16 @@ stop:
 
 fmt:
     cd backend && cargo fmt
-    cd frontend && bunx prettier --write .
+    cd frontend && pnpx prettier --write .
     alejandra flake.nix
 
 check:
     cd backend && cargo clippy
-    cd frontend && bunx prettier --check .
+    cd frontend && pnpx prettier --check .
 
 fix:
     cd backend && cargo clippy --fix --allow-dirty
-    cd frontend && bunx prettier --write .
+    cd frontend && pnpx prettier --write .
 
 # ─────────────────────────────────────────────
 #  API tests (requires "just start-backend")

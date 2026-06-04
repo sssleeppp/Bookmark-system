@@ -5,7 +5,7 @@
 - [Nix](https://nixos.org/download.html)（包管理 + 隔离环境）
 - Git
 
-所有工具（cargo, rustc, rustfmt, clippy, bun, just）由 `flake.nix` 提供，无需手动安装。
+所有工具（cargo, rustc, rustfmt, clippy, nodejs, pnpm, just）由 `flake.nix` 提供，无需手动安装。
 
 ```bash
 # 进入开发环境
@@ -54,7 +54,7 @@ just test-category-tree-delete
 ## 代码风格
 
 - **Rust**: `cargo fmt` (rustfmt 默认配置)
-- **前端**: Prettier
+- **前端**: Prettier（`pnpx prettier`）
 - **Nix**: Alejandra
 
 提交前运行 `just check` 确保通过。

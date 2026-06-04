@@ -159,7 +159,7 @@ pub async fn import_bookmarks(
                 }
             }
             Some("file") => {
-                file_content = field.text().await.ok();
+                file_content = field.bytes().await.ok().and_then(|b| String::from_utf8(b.to_vec()).ok());
             }
             _ => {}
         }

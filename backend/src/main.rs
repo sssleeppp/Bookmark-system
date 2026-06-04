@@ -3,6 +3,7 @@ mod handlers;
 mod models;
 mod result;
 
+use axum::extract::DefaultBodyLimit;
 use axum::routing::{get, post};
 use axum::Router;
 use tower_http::cors::CorsLayer;
@@ -32,6 +33,7 @@ async fn main() {
             "/bookmark/import",
             post(handlers::bookmark::import_bookmarks),
         )
+        .layer(DefaultBodyLimit::max(50 * 1024 * 1024))
         .layer(CorsLayer::permissive())
         .with_state(pool);
 
