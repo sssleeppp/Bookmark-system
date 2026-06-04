@@ -17,7 +17,7 @@ start-backend:
 start-frontend:
     cd frontend && pnpm install && pnpm dev &
 
-start-all: install start-backend start-frontend
+start-all: start-backend start-frontend
 
 stop:
     -pkill -f "bookmark-backend"

@@ -3,6 +3,12 @@
     <div class="nav-header">
       <div class="logo"><span class="brand-dot"></span> 书签管理系统</div>
       <div class="header-actions">
+        <input
+          v-model="searchQuery"
+          placeholder="搜索书签..."
+          class="header-search"
+          autofocus
+        />
         <!-- 数据管理下拉菜单 -->
         <el-dropdown trigger="click" @command="handleCommand">
           <button class="white-nav-btn small-btn mr-10" style="height: auto">
@@ -1074,6 +1080,27 @@ onMounted(() => {
 .header-actions {
   display: flex;
   align-items: center;
+  gap: 10px;
+}
+
+.header-search {
+  width: 240px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 14px;
+  outline: none;
+  transition: background 0.3s;
+}
+
+.header-search::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.header-search:focus {
+  background: rgba(255, 255, 255, 0.35);
 }
 .logo {
   font-size: 20px;

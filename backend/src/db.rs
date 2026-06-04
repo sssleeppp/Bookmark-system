@@ -13,17 +13,13 @@ pub fn init_db() -> DbPool {
 
     conn.execute_batch(
         "
-        DROP TABLE IF EXISTS bookmark;
-        DROP TABLE IF EXISTS category;
-        DROP TABLE IF EXISTS user;
-
-        CREATE TABLE user (
+        CREATE TABLE IF NOT EXISTS user (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL UNIQUE,
             password TEXT NOT NULL
         );
 
-        CREATE TABLE category (
+        CREATE TABLE IF NOT EXISTS category (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             user_id INTEGER NOT NULL,
@@ -31,7 +27,7 @@ pub fn init_db() -> DbPool {
             sort_order INTEGER DEFAULT 0
         );
 
-        CREATE TABLE bookmark (
+        CREATE TABLE IF NOT EXISTS bookmark (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
             url TEXT NOT NULL,
@@ -39,7 +35,7 @@ pub fn init_db() -> DbPool {
             user_id INTEGER NOT NULL
         );
 
-        INSERT INTO user (username, password) VALUES ('admin', '123456');
+        INSERT OR IGNORE INTO user (username, password) VALUES ('admin', '123456');
         ",
     )
     .expect("Failed to initialize database schema");

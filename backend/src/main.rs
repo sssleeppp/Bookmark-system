@@ -7,10 +7,14 @@ use axum::extract::DefaultBodyLimit;
 use axum::routing::{get, post};
 use axum::Router;
 use tower_http::cors::CorsLayer;
+use tower_http::services::ServeDir;
 
 #[tokio::main]
 async fn main() {
     let pool = db::init_db();
+
+    let frontend_dir =
+        std::env::var("FRONTEND_DIR").unwrap_or_else(|_| "../frontend/dist".to_string());
 
     let app = Router::new()
         .route("/user/login", post(handlers::user::login))
@@ -35,7 +39,8 @@ async fn main() {
         )
         .layer(DefaultBodyLimit::max(50 * 1024 * 1024))
         .layer(CorsLayer::permissive())
-        .with_state(pool);
+        .with_state(pool)
+        .fallback_service(ServeDir::new(&frontend_dir));
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:8989")
         .await
