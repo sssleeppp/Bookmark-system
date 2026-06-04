@@ -12,21 +12,12 @@ build:
     cd frontend && pnpm install
 
 start-backend:
-    #!/usr/bin/env bash
-    cd backend
-    nohup cargo run 1>/tmp/bookmark-server.log 2>&1 &
-    sleep 1
-    echo "Backend: http://localhost:8989"
+    cd backend && cargo run &
 
 start-frontend:
-    #!/usr/bin/env bash
-    cd frontend
-    test -d node_modules || pnpm install
-    nohup pnpm dev 1>/tmp/bookmark-frontend.log 2>&1 &
-    sleep 1
-    echo "Frontend: http://localhost:5173"
+    cd frontend && pnpm install && pnpm dev &
 
-start-all: start-backend start-frontend
+start-all: install start-backend start-frontend
 
 stop:
     -pkill -f "bookmark-backend"

@@ -289,6 +289,20 @@
           </div>
         </div>
 
+        <div class="search-bar">
+          <input
+            v-model="searchQuery"
+            placeholder="搜索书签..."
+            class="modern-input search-input"
+          />
+          <span
+            v-if="searchQuery"
+            class="search-clear"
+            @click="searchQuery = ''"
+            >✕</span
+          >
+        </div>
+
         <div class="book-grid">
           <div
             v-for="book in filteredBookList"
@@ -610,6 +624,7 @@ const cateList = ref([]);
 const cateTree = ref([]);
 const bookList = ref([]);
 const selectedCategoryId = ref(null);
+const searchQuery = ref("");
 
 // Drag & Drop State
 const isDraggingBookmark = ref(false);
@@ -716,12 +731,18 @@ const currentCategoryName = computed(() => {
 });
 
 const filteredBookList = computed(() => {
-  if (selectedCategoryId.value === null) {
-    return bookList.value;
+  const q = searchQuery.value.trim().toLowerCase();
+  let list = bookList.value;
+  if (selectedCategoryId.value !== null) {
+    list = list.filter((b) => b.categoryId === selectedCategoryId.value);
   }
-  return bookList.value.filter(
-    (b) => b.categoryId === selectedCategoryId.value,
-  );
+  if (q) {
+    list = list.filter(
+      (b) =>
+        b.title.toLowerCase().includes(q) || b.url.toLowerCase().includes(q),
+    );
+  }
+  return list;
 });
 
 // Category Tree Builder
@@ -1323,8 +1344,30 @@ onMounted(() => {
 
 .book-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.search-input {
+  flex: 1;
+}
+
+.search-clear {
+  cursor: pointer;
+  color: #999;
+  font-size: 14px;
+  padding: 4px 8px;
+}
+
+.search-clear:hover {
+  color: #333;
 }
 .book-card {
   background: white;
