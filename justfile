@@ -46,6 +46,22 @@ fix:
     cd frontend && pnpx prettier --write .
 
 # ─────────────────────────────────────────────
+#  Docker
+# ─────────────────────────────────────────────
+
+docker-up:
+    docker compose up --build -d
+
+docker-down:
+    docker compose down
+
+docker-logs:
+    docker compose logs -f
+
+docker-rebuild:
+    docker compose up --build -d --force-recreate
+
+# ─────────────────────────────────────────────
 #  API tests (requires "just start-backend")
 # ─────────────────────────────────────────────
 
