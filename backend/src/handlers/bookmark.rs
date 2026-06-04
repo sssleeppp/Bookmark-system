@@ -395,27 +395,51 @@ fn import_from_json(conn: &rusqlite::Connection, json: &str, user_id: i64) -> Re
             let category_id = bm["categoryId"].as_i64();
             let mapped_cat = category_id.and_then(|cid| category_id_map.get(&cid).copied());
 
-            let exists: bool = conn
-                .query_row(
-                    "SELECT COUNT(*) FROM bookmark WHERE url = ?1 AND user_id = ?2",
-                    rusqlite::params![url, user_id],
-                    |row| row.get::<_, i64>(0),
-                )
-                .map(|c| c > 0)
-                .unwrap_or(false);
-
-            if !exists {
-                conn.execute(
-                    "INSERT INTO bookmark (title, url, category_id, user_id) VALUES (?1, ?2, ?3, ?4)",
-                    rusqlite::params![title, url, mapped_cat, user_id],
-                )
-                .map_err(|e| e.to_string())?;
-                count += 1;
+            let bookmark = Bookmark {
+                id: None,
+                title,
+                url,
+                category_id: mapped_cat,
+                user_id,
+            };
+            if let Some(c) = insert_bookmark_if_new(conn, &bookmark, user_id)? {
+                count += c;
             }
         }
     }
 
     Ok(count)
+}
+
+fn insert_bookmark_if_new(
+    conn: &rusqlite::Connection,
+    bookmark: &Bookmark,
+    user_id: i64,
+) -> Result<Option<i64>, String> {
+    let exists: bool = conn
+        .query_row(
+            "SELECT COUNT(*) FROM bookmark WHERE url = ?1 AND user_id = ?2",
+            rusqlite::params![bookmark.url, user_id],
+            |row| row.get::<_, i64>(0),
+        )
+        .map(|c| c > 0)
+        .unwrap_or(false);
+
+    if !exists {
+        conn.execute(
+            "INSERT INTO bookmark (title, url, category_id, user_id) VALUES (?1, ?2, ?3, ?4)",
+            rusqlite::params![
+                bookmark.title,
+                bookmark.url,
+                bookmark.category_id,
+                user_id
+            ],
+        )
+        .map_err(|e| e.to_string())?;
+        Ok(Some(1))
+    } else {
+        Ok(None)
+    }
 }
 
 fn get_category_by_name(conn: &rusqlite::Connection, name: &str, user_id: i64) -> Option<Category> {
@@ -439,32 +463,15 @@ fn import_from_html(conn: &rusqlite::Connection, html: &str, user_id: i64) -> Re
     let document = Html::parse_document(html);
     let dl_selector = Selector::parse("dl").map_err(|e| e.to_string())?;
 
-    let root_dl = document
-        .select(&dl_selector)
-        .next()
-        .ok_or("HTML 格式错误：未找到 <dl> 标签")?;
-
     let mut imported = Vec::new();
-    parse_dl_element(&root_dl, None, user_id, conn, &mut imported)?;
+    for dl in document.select(&dl_selector) {
+        parse_dl_element(&dl, None, user_id, conn, &mut imported)?;
+    }
 
     let mut count = 0i64;
-    for bookmark in imported {
-        let exists: bool = conn
-            .query_row(
-                "SELECT COUNT(*) FROM bookmark WHERE url = ?1 AND user_id = ?2",
-                rusqlite::params![bookmark.url, user_id],
-                |row| row.get::<_, i64>(0),
-            )
-            .map(|c| c > 0)
-            .unwrap_or(false);
-
-        if !exists {
-            conn.execute(
-                "INSERT INTO bookmark (title, url, category_id, user_id) VALUES (?1, ?2, ?3, ?4)",
-                rusqlite::params![bookmark.title, bookmark.url, bookmark.category_id, user_id],
-            )
-            .map_err(|e| e.to_string())?;
-            count += 1;
+    for bookmark in &imported {
+        if let Some(c) = insert_bookmark_if_new(conn, bookmark, user_id)? {
+            count += c;
         }
     }
 

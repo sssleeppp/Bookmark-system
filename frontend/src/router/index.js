@@ -22,7 +22,7 @@ const router = createRouter({
 });
 
 // 路由守卫：未登录时强制跳转到 /login
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
   const isLoggedIn = !!localStorage.getItem("user");
   if (to.meta.requiresAuth && !isLoggedIn) {
     next({ name: "Login" });

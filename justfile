@@ -51,7 +51,7 @@ fix:
 
 BASE := "http://localhost:8989"
 
-test-all: test-login test-login-wrong test-register test-category-crud test-bookmark-crud test-bookmark-export-json test-bookmark-export-html test-bookmark-import test-category-tree-delete
+test-all: test-login test-login-wrong test-register test-category-crud test-bookmark-crud test-bookmark-export-json test-bookmark-export-html test-bookmark-import-json test-bookmark-import-html test-category-tree-delete
 
 # POST /user/login — correct password
 test-login:
@@ -129,7 +129,7 @@ test-bookmark-export-html:
     echo ""
 
 # POST /bookmark/import — JSON import
-test-bookmark-import:
+test-bookmark-import-json:
     #!/usr/bin/env bash
     set -e
     echo '{"bookmarks":[{"title":"Imported","url":"https://example.com"}],"categories":[]}' > /tmp/test_import.json
@@ -139,6 +139,30 @@ test-bookmark-import:
     	-F "format=json" \
     	-F "file=@/tmp/test_import.json" | jq
     rm -f /tmp/test_import.json
+
+# POST /bookmark/import — HTML import
+test-bookmark-import-html:
+    #!/usr/bin/env bash
+    set -e
+    printf '%s\n' \
+        '<!DOCTYPE NETSCAPE-Bookmark-file-1>' \
+        '<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">' \
+        '<TITLE>Bookmarks</TITLE>' \
+        '<H1>书签菜单</H1>' \
+        '<DL><p>' \
+        '    <DT><H3>Folder</H3>' \
+        '    <DL><p>' \
+        '        <DT><A HREF="https://nested.example.com">Nested Bookmark</A>' \
+        '    </DL><p>' \
+        '    <DT><A HREF="https://root.example.com">Root Bookmark</A>' \
+        '</DL><p>' \
+        > /tmp/test_import.html
+    echo "=== Import HTML ==="
+    curl -s -X POST {{ BASE }}/bookmark/import \
+    	-F "userId=1" \
+    	-F "format=html" \
+    	-F "file=@/tmp/test_import.html" | jq
+    rm -f /tmp/test_import.html
 
 # POST /category/delete — recursive tree delete
 test-category-tree-delete:

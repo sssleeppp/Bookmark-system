@@ -657,7 +657,7 @@ const exportBookmarks = (format) => {
   // 动画时长 1.5s，等喷发完毕再下载
   setTimeout(() => {
     isExportingAnim.value = false;
-    const url = `http://localhost:8989/bookmark/export?userId=${userId}&format=${format}`;
+    const url = `${request.defaults.baseURL}/bookmark/export?userId=${userId}&format=${format}`;
     window.open(url, "_blank");
   }, 1500);
 };
@@ -693,8 +693,7 @@ const handleFileUpload = async (event) => {
     // 给动画留点播放时间 1.5s
     setTimeout(() => {
       isImportingAnim.value = false;
-      // 兼容 code 为 1 或 200 的情况
-      if (res.data && (res.data.code === 1 || res.data.code === 200)) {
+      if (res.data && res.data.code === 200) {
         ElMessage.success(`导入成功，共吃进 ${res.data.data} 个书签`);
         loadData();
       } else {
